@@ -1,5 +1,5 @@
 package com.fan.dao;
 
-public interface BookDao {
+public interface UserDao {
     void save();
 }
