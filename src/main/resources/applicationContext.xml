@@ -1,33 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+        ">
     <!--1.导入spring的坐标spring-context-->
+    <context:property-placeholder location="classpath*:*.properties"/>
 
     <!--2.配置bean-->
     <!--bean标签配置bean
     id -> 命名
     class -> 定义类型-->
-    <bean id="bookDao" name="dao" class="com.fan.dao.impl.BookDaoImpl"/>
-    <!--换成围堵标签-->
-<!--    <bean id="bookService" class="com.fan.service.impl.BookServiceImpl"/>-->
-    <!--scope设置单例模式-->
-    <bean id="bookService" name = "service" class="com.fan.service.impl.BookServiceImpl" >
-        <!--7.配置service与dao的关系-->
-        <!--property标签表示配置当前bean的属性
-        name表示配置具体哪一个属性
-        ref表示属性参照哪一个bean-->
-        <property name="bookDao" ref="dao"/>
+    <bean id="bookDao" name="dao" class="com.fan.dao.impl.BookDaoImpl" init-method="init" destroy-method="destroy" lazy-init="true">
+        <!--构造器注入优先级更高-->
+<!--        <constructor-arg name="connectionNum" value="20"/>-->
+<!--        <constructor-arg name="databaseName" value="${jdbc.driver}"/>-->
+        <property name="connectionNum" value="10"/>
+        <!--        <property name="databaseName"  value="mysql"/>-->
+        <property name="array">
+            <array>
+                <value>100</value>
+                <value>200</value>
+                <value>300</value>
+            </array>
+        </property>
+        <property name="list">
+            <list>
+                <value>wu</value>
+                <value>yi</value>
+                <value>fan</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>wu</value>
+                <value>wu</value>
+                <value>yi</value>
+                <value>fan</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="age" value="24"/>
+                <entry key="name" value="wuyifan"/>
+                <entry key="hometown" value="zhenjiang"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="country">china</prop>
+                <prop key="gender">male</prop>
+            </props>
+        </property>
     </bean>
 
+    <bean id="userDao" class="com.fan.dao.impl.UserDaoImpl" lazy-init="true"/>
+    <!--换成围堵标签-->
+    <!--    <bean id="bookService" class="com.fan.service.impl.BookServiceImpl"/>-->
+    <!--scope设置单例模式-->
+    <!--    <bean id="bookService" name = "service" class="com.fan.service.impl.BookServiceImpl" >-->
+    <!--        &lt;!&ndash;7.配置service与dao的关系&ndash;&gt;-->
+    <!--        &lt;!&ndash;property标签表示配置当前bean的属性-->
+    <!--        name表示配置具体哪一个属性-->
+    <!--        ref表示属性参照哪一个bean&ndash;&gt;-->
+    <!--        &lt;!&ndash;构造器注入name为形参名&ndash;&gt;-->
+    <!--        <constructor-arg name="rhs_bookDao" ref="bookDao"/>-->
+    <!--        <constructor-arg name="rhs_userDao" ref="userDao"/>-->
+    <!--&lt;!&ndash;        <property name="bookDao" ref="dao"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;        <property name="userDao" ref="userDao"/>&ndash;&gt;-->
+    <!--    </bean>-->
+    <!--自动装配-->
+    <bean id="bookService" class="com.fan.service.impl.BookServiceImpl" autowire="byName"/>
     <!--以上使用构造方法实例化bean  此处使用静态工厂实例化bean-->
-<!--    <bean id="orderDao" class="com.fan.factory.OrderDaoFactory" factory-method="getOrderDao"/>-->
+    <!--    <bean id="orderDao" class="com.fan.factory.OrderDaoFactory" factory-method="getOrderDao"/>-->
 
     <!--使用实例工厂实例化bean-->
-<!--    <bean id="userFactory" class="com.fan.factory.UserDaoFactory"/>
-    <bean id="userDao" factory-method="getUserDao" factory-bean="userFactory"/>-->
+    <!--    <bean id="userFactory" class="com.fan.factory.UserDaoFactory"/>
+        <bean id="userDao" factory-method="getUserDao" factory-bean="userFactory"/>-->
 
     <!--使用FactoryBean实例化bean-->
-    <bean id="userDao" class="com.fan.factory.UserDaoFactoryBean"/>
+    <!--    <bean id="userDao" class="com.fan.factory.UserDaoFactoryBean"/>-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
 
+    <!--    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+    <!--        <property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+    <!--        <property name="jdbcUrl" value="jdbc:mysql://localhost:3450/spring_db"/>-->
+    <!--        <property name="user" value="root"/>-->
+    <!--        <property name="password" value="123456"/>-->
+    <!--    </bean>-->
 </beans>
