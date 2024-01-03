@@ -11,6 +11,9 @@
     <!--1.导入spring的坐标spring-context-->
     <context:property-placeholder location="classpath*:*.properties"/>
 
+    <!--注解开发-->
+<!--    <context:component-scan base-package="com.fan.dao.impl"/>-->
+
     <!--2.配置bean-->
     <!--bean标签配置bean
     id -> 命名
@@ -74,7 +77,7 @@
     <!--&lt;!&ndash;        <property name="userDao" ref="userDao"/>&ndash;&gt;-->
     <!--    </bean>-->
     <!--自动装配-->
-    <bean id="bookService" class="com.fan.service.impl.BookServiceImpl" autowire="byName"/>
+    <bean id="bookService" class="com.fan.service.impl.BookServiceImpl" autowire="byType" lazy-init="true"/>
     <!--以上使用构造方法实例化bean  此处使用静态工厂实例化bean-->
     <!--    <bean id="orderDao" class="com.fan.factory.OrderDaoFactory" factory-method="getOrderDao"/>-->
 
@@ -97,4 +100,7 @@
     <!--        <property name="user" value="root"/>-->
     <!--        <property name="password" value="123456"/>-->
     <!--    </bean>-->
+
+
+
 </beans>
