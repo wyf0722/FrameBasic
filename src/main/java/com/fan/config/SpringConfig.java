@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("com.fan")
-//@Import(JdbcConfig.class)
+@Import({JdbcConfig.class, MybatisConfig.class})
 @PropertySource("classpath:jdbc.properties")
 public class SpringConfig {
 
