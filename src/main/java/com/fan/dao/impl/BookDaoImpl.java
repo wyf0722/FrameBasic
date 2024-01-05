@@ -19,7 +19,9 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book dao delete ...");
     }
 
-    public void select() {
+    public int select() {
         System.out.println("book dao select ...");
+//        int r = 1 / 0; // 抛异常 afterthrowing
+        return 100;
     }
 }
