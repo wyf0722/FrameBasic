@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
         BookDao bookDao = ctx.getBean(BookDao.class);
-//        bookDao.update();
-        System.out.println(bookDao.select());
+        String name = bookDao.findName(10, "root");
+//        System.out.println(name);
     }
 }
