@@ -1,11 +1,5 @@
 package com.fan.dao;
 
 public interface BookDao {
-    public void save();
-
-    public void update();
-
-    public void delete();
-
-    public int select();
+    public String findName(int id, String name);
 }
