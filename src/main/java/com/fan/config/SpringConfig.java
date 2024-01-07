@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("com.fan")
-@PropertySource("classpath:jdbc.properties")
 @EnableAspectJAutoProxy
 public class SpringConfig {
 
